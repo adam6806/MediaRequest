@@ -81,19 +81,39 @@ var setList = function(response) {
 };
 
 var setTVList = function(response) {
-    var html = "";
+    var items = [];
     var json = JSON.parse(response);
-    json.forEach(function(obj) {
-        html = html + "<li>" + obj.title + " " + obj.year + "</br>" + obj.overview + "</br><img src=\"" + obj.remotePoster + "\" style=\"width: 10%; height: 10%\"></img></li>";
+    json.forEach(function(obj, index, array) {
+        var item = {};
+        item.title = obj.title;
+        item.year = obj.year;
+        item.plot = obj.overview;
+        item.image = obj.remotePoster;
+        items[index] = item;
     });
-    $("#request-list").html(html);
+    displayResults(items);
 };
 
 var setMovieList = function(response) {
-    var html = "";
+    var items = [];
     var json = JSON.parse(response);
-    json.movies.forEach(function(obj) {
-        html = html + "<li>" + obj.original_title + " " + obj.year + "</br>" + obj.plot + "</br><img src=\"" + obj.images.poster[0] + "\" style=\"width: 10%; height: 10%\"></img></li>";
+    json.movies.forEach(function(obj, index, array) {
+        var item = {};
+        item.title = obj.original_title;
+        item.year = obj.year;
+        item.plot = obj.plot;
+        item.image = obj.images.poster[0];
+        items[index] = item;
     });
-    $("#request-list").html(html);
+    displayResults(items);
 };
+
+var displayResults = function(items) {
+    var html = "";
+    items.forEach(function(item, index, array) {
+        html = html + "<li><div><img src=\"" + item.image + "\" style=\"width: 10%; height: 10%\"></img></div><div><div>" + item.title + " (" + item.year + ")</div><div>" + item.plot + "</div></div>";    
+    }    
+    //<li><div><img></img></div><div><div>title (year)</div><div>plot</div></div>
+    
+    $("#request-list").html(html);
+}
