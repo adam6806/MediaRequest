@@ -6,6 +6,7 @@
 
 $(document).ready(function() {
     $("#get-requests").on("click", function() {
+        $("#request-loading").show();
         $.ajax({
             url: 'StoreRequest',
             datatype: 'json',
@@ -15,9 +16,12 @@ $(document).ready(function() {
             success: function(response) {
                 setList(response);
             }
+        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+            $("#request-loading").hide();
         });
     });
     $("#submit-request").on("click", function() {
+        $("#request-loading").show();
         var name = $("#media-name").val();
         $.ajax({
             url: 'StoreRequest',
@@ -28,10 +32,13 @@ $(document).ready(function() {
             success: function(response) {
                 setList(response);
             }
+        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+            $("#request-loading").hide();
         });
     });
     $("#search-tv").on("click", function() {
         var searchTerm = $("#tv-search-term").val();
+        $("#tv-loading").show();
         $.ajax({
             url: '/SonarrService',
             datatype: 'json',
@@ -41,10 +48,13 @@ $(document).ready(function() {
             success: function(response) {
                 setTVList(response);
             }
+        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+            $("#tv-loading").hide();
         });
     });
     $("#search-movie").on("click", function() {
         var searchTerm = $("#movie-search-term").val();
+        $("#movie-loading").show();
         $.ajax({
             url: '/CouchPotatoService',
             datatype: 'json',
@@ -54,6 +64,8 @@ $(document).ready(function() {
             success: function(response) {
                 setMovieList(response);
             }
+        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+            $("#movie-loading").hide();
         });
     });
 });
