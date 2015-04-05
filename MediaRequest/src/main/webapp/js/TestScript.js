@@ -58,7 +58,7 @@ var setTVList = function(response) {
     var html = "";
     var json = JSON.parse(response);
     json.forEach(function(obj) {
-        html = html + "<li>" + obj.title + " " + obj.year + "</li>";
+        html = html + "<li>" + obj.title + " " + obj.year + "</br>" + obj.overview + "</br><img src=\"" + obj.remotePoster + "\" style=\"width: 10%; height: 10%\"></img></li>";
     });
     $("#request-list").html(html);
 };
