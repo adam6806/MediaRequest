@@ -111,7 +111,7 @@ var setMovieList = function(response) {
 var displayResults = function(items) {
     var html = "";
     items.forEach(function(item, index, array) {
-        html = html + "<li><div><img src=\"" + item.image + "\" style=\"width: 10%; height: 10%\"></img></div><div><div>" + item.title + " (" + item.year + ")</div><div>" + item.plot + "</div></div>";
+        html = html + "<li><div class=\"result-image-div\"><img class=\"result-image\" src=\"" + item.image + "\"></img></div><div class=\"result-info\"><div class=\"result-title\">" + item.title + " (" + item.year + ")</div><div class=\"result-plot\">" + item.plot + "</div></div>";
     });        
     $("#request-list").html(html);
 };

@@ -9,6 +9,7 @@ and open the template in the editor.
         <title>Media Request</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
         <script src="webjars/jquery/1.11.2/jquery.min.js"></script>
         <script src="js/TestScript.js"></script>
         
@@ -18,20 +19,20 @@ and open the template in the editor.
             Enter TV search:
             <input type="text" id="tv-search-term" value="" />
             <input type="button" id="search-tv" value="Search TV" />
-            <img id="tv-loading" src="img/spinner.gif" style="display: none" height="20" width="20"></img>
+            <img id="tv-loading" class="loading-image" alt="Loading..." src="img/spinner.gif">
         </div>
         <div id="movie">
             Enter Movie search:
             <input type="text" id="movie-search-term" value="" />
             <input type="button" id="search-movie" value="Search Movie" />
-            <img id="movie-loading" src="img/spinner.gif" style="display: none" height="20" width="20"></img>
+            <img id="movie-loading" class="loading-image" alt="Loading..." src="img/spinner.gif">
         </div>
         <div id="request">
             Enter request:
             <input type="text" id="media-name" value="" />
             <input type="button" value="Submit" id="submit-request"/>
             <input type="button" value="Get Requests" id="get-requests" />
-            <img id="request-loading" src="img/spinner.gif" style="display: none" height="20" width="20"></img>
+            <img id="request-loading" class="loading-image" alt="Loading..." src="img/spinner.gif">
         </div>
         <div id="results">
             <ul id="request-list"></ul>
