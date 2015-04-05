@@ -79,8 +79,8 @@ var setTVList = function(response) {
 var setMovieList = function(response) {
     var html = "";
     var json = JSON.parse(response);
-    json.forEach(function(obj) {
-        html = html + "<li>" + obj.original_title + " " + obj.year + "</br>" + obj.plot + "</br><img src=\"" + obj.poster_original + "\" style=\"width: 10%; height: 10%\"></img></li>";
+    json.movies.forEach(function(obj) {
+        html = html + "<li>" + obj.original_title + " " + obj.year + "</br>" + obj.plot + "</br><img src=\"" + obj.images.poster[0] + "\" style=\"width: 10%; height: 10%\"></img></li>";
     });
     $("#request-list").html(html);
 };
