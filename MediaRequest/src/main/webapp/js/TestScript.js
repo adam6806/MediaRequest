@@ -30,6 +30,19 @@ $(document).ready(function() {
             }
         });
     });
+    $("#search-tv").on("click", function() {
+        var searchTerm = $("#search-term").val();
+        $.ajax({
+            url: '/SonarrSvc-1.0-SNAPSHOT',
+            datatype: 'json',
+            data: {searchTerm: searchTerm},
+            cache:false,
+            type:'get',
+            success: function(response) {
+                setTVList(response);
+            }
+        });
+    });
 });
 
 var setList = function(response) {
@@ -41,3 +54,11 @@ var setList = function(response) {
     $("#request-list").html(html);
 };
 
+var setTVList = function(response) {
+    var html = "";
+    var json = JSON.parse(response);
+    json.forEach(function(obj) {
+        html = html + "<li>" + obj.title + " " + obj.year + "</li>";
+    });
+    $("#request-list").html(html);
+};

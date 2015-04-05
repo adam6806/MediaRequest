@@ -28,16 +28,16 @@ import org.apache.http.client.utils.URIBuilder;
  */
 @WebServlet(name = "SonarrService", urlPatterns = {"index.html"})
 public class SonarrService extends HttpServlet {
-    
+
     @Resource(lookup = "java:global/sonarrURL")
     private URL sonarrURL;
-    
+
     @Resource(lookup = "java:global/sonarrApiKey")
     private String apiKey;
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-       
+
         try {
             HttpClient httpClient = new HttpClient();
             String term = request.getParameter("searchTerm");
@@ -50,8 +50,8 @@ public class SonarrService extends HttpServlet {
                     .setParameter("apikey", apiKey)
                     .build();
             GetMethod getMethod = new GetMethod(uri.toString());
-            getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
-    		new DefaultHttpMethodRetryHandler(3, false));
+            getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
+                    new DefaultHttpMethodRetryHandler(3, false));
             httpClient.executeMethod(getMethod);
             String responseBody = getMethod.getResponseBodyAsString();
             response.getWriter().write(responseBody);
@@ -60,7 +60,7 @@ public class SonarrService extends HttpServlet {
         } catch (IOException ex) {
             Logger.getLogger(SonarrService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
 }
