@@ -110,6 +110,11 @@ var setMovieList = function(response) {
 
 var displayResults = function(items) {
     var html = "";
+    items.sort(function(a,b) {
+        if(a.year < b.year) return -1;
+        if(a.year > b.year) return 1;
+        else return 0;
+    });
     items.forEach(function(item, index, array) {
         html = html + "<li class=\"list-item\"><div class=\"result-image-div\"><img class=\"result-image\" src=\"" + item.image + "\"></img></div><div class=\"result-info\"><div class=\"result-title\">" + item.title + " (" + item.year + ")</div><div class=\"result-plot\">" + item.plot + "</div></div>";
     });        
