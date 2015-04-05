@@ -46,7 +46,7 @@ $(document).ready(function() {
     $("#search-movie").on("click", function() {
         var searchTerm = $("#movie-search-term").val();
         $.ajax({
-            url: '/SCouchPotatoService',
+            url: '/CouchPotatoService',
             datatype: 'json',
             data: {searchTerm: searchTerm},
             cache:false,
