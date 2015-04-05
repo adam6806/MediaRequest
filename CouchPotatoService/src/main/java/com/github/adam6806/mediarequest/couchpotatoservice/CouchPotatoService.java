@@ -29,10 +29,10 @@ import org.apache.http.client.utils.URIBuilder;
 @WebServlet(name = "CouchPotatoService", urlPatterns = {"index.html"})
 public class CouchPotatoService extends HttpServlet {
 
-    @Resource(lookup = "java:global/couchPotatoURL")
+    @Resource(lookup = "java:global/couchpotatoURL")
     private URL couchPotatoURL;
 
-    @Resource(lookup = "java:global/couchPotatoApiKey")
+    @Resource(lookup = "java:global/couchpotatoApiKey")
     private String apiKey;
 
     @Override
