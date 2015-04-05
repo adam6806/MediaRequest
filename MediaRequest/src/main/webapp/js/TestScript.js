@@ -31,15 +31,28 @@ $(document).ready(function() {
         });
     });
     $("#search-tv").on("click", function() {
-        var searchTerm = $("#search-term").val();
+        var searchTerm = $("#tv-search-term").val();
         $.ajax({
-            url: '/SonarrSvc',
+            url: '/SonarrService',
             datatype: 'json',
             data: {searchTerm: searchTerm},
             cache:false,
             type:'get',
             success: function(response) {
                 setTVList(response);
+            }
+        });
+    });
+    $("#search-movie").on("click", function() {
+        var searchTerm = $("#movie-search-term").val();
+        $.ajax({
+            url: '/SCouchPotatoService',
+            datatype: 'json',
+            data: {searchTerm: searchTerm},
+            cache:false,
+            type:'get',
+            success: function(response) {
+                setMovieList(response);
             }
         });
     });
@@ -59,6 +72,15 @@ var setTVList = function(response) {
     var json = JSON.parse(response);
     json.forEach(function(obj) {
         html = html + "<li>" + obj.title + " " + obj.year + "</br>" + obj.overview + "</br><img src=\"" + obj.remotePoster + "\" style=\"width: 10%; height: 10%\"></img></li>";
+    });
+    $("#request-list").html(html);
+};
+
+var setMovieList = function(response) {
+    var html = "";
+    var json = JSON.parse(response);
+    json.forEach(function(obj) {
+        html = html + "<li>" + obj.original_title + " " + obj.year + "</br>" + obj.plot + "</br><img src=\"" + obj.poster_original + "\" style=\"width: 10%; height: 10%\"></img></li>";
     });
     $("#request-list").html(html);
 };
