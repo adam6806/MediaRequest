@@ -33,7 +33,7 @@ $(document).ready(function() {
     $("#search-tv").on("click", function() {
         var searchTerm = $("#search-term").val();
         $.ajax({
-            url: '/SonarrSvc-1.0-SNAPSHOT',
+            url: '/SonarrSvc',
             datatype: 'json',
             data: {searchTerm: searchTerm},
             cache:false,
