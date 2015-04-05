@@ -20,14 +20,14 @@ and open the template in the editor.
 }
 
 .result-image {
-    width: 100%;
+    width: auto;
     height: 100%;
 }
 
 .result-info {
     position: relative;
     margin-left: 200px;
-    width: 300px;
+    width: 600px;
 }
 
 .result-title {
