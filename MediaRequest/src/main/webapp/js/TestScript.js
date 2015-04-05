@@ -16,7 +16,8 @@ $(document).ready(function() {
             success: function(response) {
                 setList(response);
             }
-        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+        })
+        .always(function( datajqXHR, textStatus, jerrorThrown ) {
             $("#request-loading").hide();
         });
     });
@@ -32,7 +33,7 @@ $(document).ready(function() {
             success: function(response) {
                 setList(response);
             }
-        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+        }).always(function( datajqXHR, textStatus, jqXHRerrorThrown ) {
             $("#request-loading").hide();
         });
     });
@@ -48,7 +49,7 @@ $(document).ready(function() {
             success: function(response) {
                 setTVList(response);
             }
-        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+        }).always(function( datajqXHR, textStatus, jqXHRerrorThrown ) {
             $("#tv-loading").hide();
         });
     });
@@ -64,7 +65,7 @@ $(document).ready(function() {
             success: function(response) {
                 setMovieList(response);
             }
-        }).always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {
+        }).always(function( datajqXHR, textStatus, jqXHRerrorThrown ) {
             $("#movie-loading").hide();
         });
     });
