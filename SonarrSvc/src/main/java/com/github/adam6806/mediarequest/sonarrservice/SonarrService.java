@@ -16,19 +16,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 
 /**
  *
  * @author adam
  */
-@WebServlet(name = "SonarrService", urlPatterns = {"SonarrService"})
+@WebServlet(name = "SonarrService", urlPatterns = {"index.html"})
 public class SonarrService extends HttpServlet {
     
     @Resource(lookup = "java:global/sonarrURL")
@@ -44,7 +42,9 @@ public class SonarrService extends HttpServlet {
             HttpClient httpClient = new HttpClient();
             String term = request.getParameter("searchTerm");
             URI uri = new URIBuilder()
-                    .setHost(sonarrURL.toString())
+                    .setScheme(sonarrURL.getProtocol())
+                    .setHost(sonarrURL.getHost())
+                    .setPort(sonarrURL.getPort())
                     .setPath("/api/Series/lookup")
                     .setParameter("term", term)
                     .setParameter("apikey", apiKey)
@@ -52,7 +52,6 @@ public class SonarrService extends HttpServlet {
             GetMethod getMethod = new GetMethod(uri.toString());
             getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
     		new DefaultHttpMethodRetryHandler(3, false));
-            HttpClient httpclient = new HttpClient();
             httpClient.executeMethod(getMethod);
             String responseBody = getMethod.getResponseBodyAsString();
             response.getWriter().write(responseBody);
