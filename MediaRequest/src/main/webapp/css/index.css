@@ -10,13 +10,17 @@ and open the template in the editor.
 
 .list-item {
     height: 300px;
+    border: 4px solid green;
+    width: 800px;
+    margin-bottom: 20px;
+    background-color: lavender;
 }
 
 .result-image-div {
     position: relative;
     float: left;
     width: auto;
-    height: 80%;
+    height: 100%;
 }
 
 .result-image {
@@ -27,8 +31,8 @@ and open the template in the editor.
 .result-info {
     position: relative;
     margin-left: 200px;
-    width: 600px;
-    overflow: auto;
+    margin-right: 20px;
+    overflow: hidden;
     height: 100%
 }
 
@@ -39,6 +43,8 @@ and open the template in the editor.
 .result-plot {
     margin-left: 20px;
     margin-top: 20px;
+    height: 80%;
+    overflow: auto;
 }
 
 .loading-image {
