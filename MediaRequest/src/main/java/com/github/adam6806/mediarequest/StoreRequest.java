@@ -12,14 +12,25 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.sql.DataSource;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
+import org.jooq.SQLDialect;
+import static org.jooq.impl.DSL.*;
+import static com.github.adam6806.mediarequest.jooqgenerator.Tables.*;
+import com.github.adam6806.mediarequest.jooqgenerator.tables.records.RequestRecord;
+import java.sql.Date;
+import java.sql.SQLException;
+import org.jooq.InsertSetMoreStep;
+import org.jooq.InsertSetStep;
+import org.jooq.impl.DSL;
 import org.json.JSONArray;
-
+import org.json.JSONObject;
 
 /**
  *
@@ -27,29 +38,35 @@ import org.json.JSONArray;
  */
 @WebServlet(asyncSupported = false, name = "StoreRequest", urlPatterns = {"/StoreRequest"})
 public class StoreRequest extends HttpServlet {
-    
+
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
-    
-    @Resource(lookup = "java:jboss/datasources/SpaceriskDB")
+
+    @Resource(lookup = "java:/MediaRequestDS")
     private DataSource datasource;
-    
+
     @EJB
     private EmailService emailService;
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-       
+
         try {
             connection = datasource.getConnection();
             if (request.getParameter("request").equalsIgnoreCase("data-request")) {
-           
+
                 response.getWriter().write(getResultJSON(connection));
             } else {
                 String name = request.getParameter("medianame");
-                String sqlStatement = "INSERT INTO earlynotify.\"addresses\" VALUES ('"+name+"')";
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                statement.execute(sqlStatement);
+                DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+                InsertSetMoreStep<RequestRecord> set = create.insertInto(REQUEST)
+                        .set(REQUEST.DESCRIPTION, name)
+                        .set(REQUEST.MEDIAID, name)
+                        .set(REQUEST.POSTERIMAGEURL, name)
+                        .set(REQUEST.REQUESTDATE, name)
+                        .set(REQUEST.EMAIL, name)
+                        .set(REQUEST.ISMOVIE, true);
+                set.execute();
                 response.getWriter().write(getResultJSON(connection));
                 emailService.sendMail("asmith0935@gmail.com", name, name);
             }
@@ -58,18 +75,31 @@ public class StoreRequest extends HttpServlet {
             Logger.getLogger(StoreRequest.class.getName()).log(Level.SEVERE, null, ex);
             response.setStatus(500);
         }
-        
+
     }
-    
+
     private String getResultJSON(Connection connection) {
         String output = "";
         try {
-            String sqlStatement = "SELECT * FROM earlynotify.\"addresses\"";
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet resultSet = statement.executeQuery(sqlStatement);
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            Result<RequestRecord> result = create.fetch(REQUEST);
+
             JSONArray jSONArray = new JSONArray();
-            while(resultSet.next()) {
-                jSONArray.put(resultSet.getString(1));
+            for (Record r : result) {
+                JSONObject requestJSON = new JSONObject();
+                //String description = r.getValue(REQUEST.DESCRIPTION);
+                String email = r.getValue(REQUEST.EMAIL);
+                //boolean isMovie = r.getValue(REQUEST.ISMOVIE);
+                //String mediaId = r.getValue(REQUEST.MEDIAID);
+                //String imageUrl = r.getValue(REQUEST.POSTERIMAGEURL);
+                String requestDate = r.getValue(REQUEST.REQUESTDATE);
+                //requestJSON.put("description", description);
+                //requestJSON.put("email", email);
+                //requestJSON.put("isMovie", isMovie);
+                //requestJSON.put("mediaId", mediaId);
+                //requestJSON.put("imageUrl", imageUrl);
+                //requestJSON.put("requestDate", requestDate);
+                jSONArray.put(email);
             }
             output = jSONArray.toString();
             connection.close();
