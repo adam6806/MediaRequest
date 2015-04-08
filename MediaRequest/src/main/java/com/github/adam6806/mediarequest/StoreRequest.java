@@ -54,7 +54,7 @@ public class StoreRequest extends HttpServlet {
 
         try {
             HttpSession session = request.getSession(false);
-            if (session != null) {
+            if (session != null && session.getAttribute("username") != null) {
                 connection = datasource.getConnection();
                 if (request.getParameter("request").equalsIgnoreCase("data-request")) {
 
