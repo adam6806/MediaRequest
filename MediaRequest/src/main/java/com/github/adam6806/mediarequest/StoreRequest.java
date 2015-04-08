@@ -24,6 +24,7 @@ import org.jooq.SQLDialect;
 import static org.jooq.impl.DSL.*;
 import static com.github.adam6806.mediarequest.jooqgenerator.Tables.*;
 import com.github.adam6806.mediarequest.jooqgenerator.tables.records.RequestRecord;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
@@ -51,13 +52,18 @@ public class StoreRequest extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        
+
         HttpSession session = request.getSession(false);
-        if(session!=null) {
-            
+        if (session != null) {
+
         } else {
             try {
-                response.sendRedirect("Login");
+                response.setContentType("text/html");
+                PrintWriter pw = response.getWriter();
+
+                response.sendRedirect("http://pirateofdw.gotdns.com/Login");
+
+                pw.close();
             } catch (IOException ex) {
                 Logger.getLogger(StoreRequest.class.getName()).log(Level.SEVERE, null, ex);
             }
