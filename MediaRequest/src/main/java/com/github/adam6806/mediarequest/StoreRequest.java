@@ -26,6 +26,7 @@ import static com.github.adam6806.mediarequest.jooqgenerator.Tables.*;
 import com.github.adam6806.mediarequest.jooqgenerator.tables.records.RequestRecord;
 import java.sql.Date;
 import java.sql.SQLException;
+import javax.servlet.http.HttpSession;
 import org.jooq.InsertSetMoreStep;
 import org.jooq.InsertSetStep;
 import org.jooq.impl.DSL;
@@ -52,25 +53,31 @@ public class StoreRequest extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            connection = datasource.getConnection();
-            if (request.getParameter("request").equalsIgnoreCase("data-request")) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                connection = datasource.getConnection();
+                if (request.getParameter("request").equalsIgnoreCase("data-request")) {
 
-                response.getWriter().write(getResultJSON(connection));
+                    response.getWriter().write(getResultJSON(connection));
+                } else {
+                    String name = request.getParameter("medianame");
+                    DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+                    InsertSetMoreStep<RequestRecord> set = create.insertInto(REQUEST)
+                            .set(REQUEST.DESCRIPTION, name)
+                            .set(REQUEST.MEDIAID, name)
+                            .set(REQUEST.POSTERIMAGEURL, name)
+                            .set(REQUEST.REQUESTDATE, name)
+                            .set(REQUEST.EMAIL, name)
+                            .set(REQUEST.ISMOVIE, true);
+                    set.execute();
+                    response.getWriter().write(getResultJSON(connection));
+                    emailService.sendMail("asmith0935@gmail.com", name, name);
+                }
+                response.setStatus(200);
             } else {
-                String name = request.getParameter("medianame");
-                DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                InsertSetMoreStep<RequestRecord> set = create.insertInto(REQUEST)
-                        .set(REQUEST.DESCRIPTION, name)
-                        .set(REQUEST.MEDIAID, name)
-                        .set(REQUEST.POSTERIMAGEURL, name)
-                        .set(REQUEST.REQUESTDATE, name)
-                        .set(REQUEST.EMAIL, name)
-                        .set(REQUEST.ISMOVIE, true);
-                set.execute();
-                response.getWriter().write(getResultJSON(connection));
-                emailService.sendMail("asmith0935@gmail.com", name, name);
+                response.sendRedirect("/Login");
             }
-            response.setStatus(200);
+
         } catch (SQLException | IOException ex) {
             Logger.getLogger(StoreRequest.class.getName()).log(Level.SEVERE, null, ex);
             response.setStatus(500);
