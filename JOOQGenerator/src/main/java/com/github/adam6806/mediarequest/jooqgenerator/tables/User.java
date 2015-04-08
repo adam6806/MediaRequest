@@ -16,7 +16,7 @@ package com.github.adam6806.mediarequest.jooqgenerator.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends org.jooq.impl.TableImpl<com.github.adam6806.mediarequest.jooqgenerator.tables.records.UserRecord> {
 
-	private static final long serialVersionUID = -321562204;
+	private static final long serialVersionUID = -1162652105;
 
 	/**
 	 * The reference instance of <code>request.user</code>
@@ -65,6 +65,21 @@ public class User extends org.jooq.impl.TableImpl<com.github.adam6806.mediareque
 	 * The column <code>request.user.numberOfRequests</code>.
 	 */
 	public final org.jooq.TableField<com.github.adam6806.mediarequest.jooqgenerator.tables.records.UserRecord, java.lang.Integer> NUMBEROFREQUESTS = createField("numberOfRequests", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>request.user.securityQuestion</code>.
+	 */
+	public final org.jooq.TableField<com.github.adam6806.mediarequest.jooqgenerator.tables.records.UserRecord, java.lang.String> SECURITYQUESTION = createField("securityQuestion", org.jooq.impl.SQLDataType.VARCHAR.length(256), this, "");
+
+	/**
+	 * The column <code>request.user.securityAnswer</code>.
+	 */
+	public final org.jooq.TableField<com.github.adam6806.mediarequest.jooqgenerator.tables.records.UserRecord, java.lang.String> SECURITYANSWER = createField("securityAnswer", org.jooq.impl.SQLDataType.VARCHAR.length(256), this, "");
+
+	/**
+	 * The column <code>request.user.password</code>.
+	 */
+	public final org.jooq.TableField<com.github.adam6806.mediarequest.jooqgenerator.tables.records.UserRecord, java.lang.String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR.length(512), this, "");
 
 	/**
 	 * Create a <code>request.user</code> table reference
