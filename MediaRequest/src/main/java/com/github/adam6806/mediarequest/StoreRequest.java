@@ -51,33 +51,38 @@ public class StoreRequest extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        
+        HttpSession session = request.getSession(false);
+        if(session!=null) {
+            
+        } else {
+            try {
+                response.sendRedirect("Login");
+            } catch (IOException ex) {
+                Logger.getLogger(StoreRequest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         try {
-            HttpSession session = request.getSession(false);
-            if (session != null && session.getAttribute("username") != null) {
-                connection = datasource.getConnection();
-                if (request.getParameter("request").equalsIgnoreCase("data-request")) {
+            connection = datasource.getConnection();
+            if (request.getParameter("request").equalsIgnoreCase("data-request")) {
 
-                    response.getWriter().write(getResultJSON(connection));
-                } else {
-                    String name = request.getParameter("medianame");
-                    DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                    InsertSetMoreStep<RequestRecord> set = create.insertInto(REQUEST)
-                            .set(REQUEST.DESCRIPTION, name)
-                            .set(REQUEST.MEDIAID, name)
-                            .set(REQUEST.POSTERIMAGEURL, name)
-                            .set(REQUEST.REQUESTDATE, name)
-                            .set(REQUEST.EMAIL, name)
-                            .set(REQUEST.ISMOVIE, true);
-                    set.execute();
-                    response.getWriter().write(getResultJSON(connection));
-                    emailService.sendMail("asmith0935@gmail.com", name, name);
-                }
-                response.setStatus(200);
+                response.getWriter().write(getResultJSON(connection));
             } else {
-                response.sendRedirect("Login");
+                String name = request.getParameter("medianame");
+                DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+                InsertSetMoreStep<RequestRecord> set = create.insertInto(REQUEST)
+                        .set(REQUEST.DESCRIPTION, name)
+                        .set(REQUEST.MEDIAID, name)
+                        .set(REQUEST.POSTERIMAGEURL, name)
+                        .set(REQUEST.REQUESTDATE, name)
+                        .set(REQUEST.EMAIL, name)
+                        .set(REQUEST.ISMOVIE, true);
+                set.execute();
+                response.getWriter().write(getResultJSON(connection));
+                emailService.sendMail("asmith0935@gmail.com", name, name);
             }
-
+            response.setStatus(200);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(StoreRequest.class.getName()).log(Level.SEVERE, null, ex);
             response.setStatus(500);
