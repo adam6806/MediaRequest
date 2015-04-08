@@ -75,7 +75,7 @@ public class StoreRequest extends HttpServlet {
                 }
                 response.setStatus(200);
             } else {
-                response.sendRedirect("/Login");
+                response.sendRedirect("Login");
             }
 
         } catch (SQLException | IOException ex) {
